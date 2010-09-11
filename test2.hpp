@@ -10,6 +10,7 @@ namespace __test2__ {
 
 extern str *const_0;
 
+void __init();
 using __Vector4__::Vector4;
 
 

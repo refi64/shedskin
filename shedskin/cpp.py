@@ -211,6 +211,8 @@ class generateVisitor(ASTVisitor):
         for n in self.module.mod_path:
             print >>self.out, 'namespace __'+n+'__ {'
         print >>self.out
+        
+        print >>self.out, 'void __init();'
 
         for child in node.node.getChildNodes():
             if isinstance(child, From) and child.modname != '__future__':

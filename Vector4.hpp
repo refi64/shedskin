@@ -7,6 +7,7 @@
 using namespace __shedskin__;
 namespace __Vector4__ {
 
+void __init();
 
 class Vector4;
 
