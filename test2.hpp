@@ -22,6 +22,5 @@ Vector4 *test2(Vector4 *v);
 } // module namespace
 namespace __shedskin__ { /* XXX */
 
-template<> __Vector4__::Vector4 *__to_ss(PyObject *p);
 }
 #endif
