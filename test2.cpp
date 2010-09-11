@@ -64,7 +64,7 @@ static PyMethodDef Global_test2Methods[] = {
 };
 
 PyMODINIT_FUNC inittest2(void) {
-    __shedskin__::__init();
+    //__shedskin__::__init();
     PyImport_ImportModule("Vector4");
     //__Vector4__::__init();
     __test2__::__init();

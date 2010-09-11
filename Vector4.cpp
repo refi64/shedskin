@@ -140,7 +140,7 @@ static PyMethodDef Global_Vector4Methods[] = {
 };
 
 PyMODINIT_FUNC initVector4(void) {
-    __shedskin__::__init();
+//    __shedskin__::__init();
     __Vector4__::__init();
 
     PyObject *mod = Py_InitModule((char *)"Vector4", Global_Vector4Methods);
