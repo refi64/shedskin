@@ -3,7 +3,6 @@
 *.txt
 *.ini
 *.csv
-*.so
 FLAGS
 Makefile*
 /lib
