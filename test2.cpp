@@ -9,8 +9,10 @@ str *__name__;
 
 
 Vector4 *test2(Vector4 *v) {
+    printf("huhhh\n");
     
     print2(0,1, const_0);
+    printf("huhhh2\n");
     return v;
 }
 
@@ -18,6 +20,18 @@ void __init() {
     const_0 = new str("ok2");
 
     __name__ = new str("test2");
+
+    printf("t2 init\n");
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    new Vector4();
+    printf("t2 init..\n");
 
     v = test2((new Vector4()));
 }
@@ -65,7 +79,7 @@ static PyMethodDef Global_test2Methods[] = {
 
 PyMODINIT_FUNC inittest2(void) {
     printf("init t2\n");
-    //__shedskin__::__init();
+    __shedskin__::__init();
     PyImport_ImportModule("Vector4");
     //__Vector4__::__init();
     __test2__::__init();
@@ -74,8 +88,11 @@ PyMODINIT_FUNC inittest2(void) {
     if(!mod)
         return;
 
+    printf("a\n");
 
     PyModule_AddObject(mod, (char *)"v", __to_py(__test2__::v));
+
+    printf("b\n");
 
 }
 
