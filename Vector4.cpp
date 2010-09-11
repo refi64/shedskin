@@ -15,7 +15,7 @@ class_ *cl_Vector4;
 void __init() {
     __name__ = new str("Vector4");
 
-    cl_Vector4 = new class_("Vector4", 31, 31);
+    cl_Vector4 = new class_("Vector4", 16, 16);
     v = (new Vector4());
 }
 
@@ -140,7 +140,7 @@ static PyMethodDef Global_Vector4Methods[] = {
 };
 
 PyMODINIT_FUNC initVector4(void) {
-//    __shedskin__::__init();
+    //__shedskin__::__init();
     __Vector4__::__init();
 
     PyObject *mod = Py_InitModule((char *)"Vector4", Global_Vector4Methods);

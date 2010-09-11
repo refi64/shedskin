@@ -66,7 +66,6 @@ static PyMethodDef Global_test1Methods[] = {
 PyMODINIT_FUNC inittest1(void) {
     __shedskin__::__init();
     PyImport_ImportModule("Vector4");
-    //__Vector4__::__init();
     __test1__::__init();
 
     PyObject *mod = Py_InitModule((char *)"test1", Global_test1Methods);

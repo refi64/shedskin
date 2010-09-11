@@ -426,7 +426,7 @@ class generateVisitor(ASTVisitor):
                     else:
                         print >>self.out, '    __sys__::__init(argc, argv);'
                 else:
-                    print >>self.out, '    __'+'__::__'.join([n for n in mod.mod_path])+'__::__init();' # XXX sep func
+                    print >>self.out, '    PyImport_ImportModule("%s");' % mod.ident
 
     def do_comment(self, s):
         if not s: return
@@ -3031,6 +3031,8 @@ def generate_code():
                 elif sys.platform == 'darwin': line += ' -bundle -undefined dynamic_lookup ' + ldflags
                 elif sys.platform == 'sunos5': line += ' -shared -Xlinker ' + ldflags
                 else: line += ' -shared -Xlinker -export-dynamic ' + ldflags
+                if getgx().main_module.ident != 'Vector4':
+                    line += ' -L. -lVector4'
 
             if 'socket' in [m.ident for m in mods]:
                 if sys.platform == 'win32':
