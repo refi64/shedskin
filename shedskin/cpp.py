@@ -2967,7 +2967,7 @@ def generate_code():
     # --- generate C++ files
     mods = getgx().modules.values()
     for module in mods:
-        if not module.builtin:
+        if module == getgx().main_module:
             # create output directory if necessary
             if getgx().output_dir:
                 output_dir = os.path.join(getgx().output_dir, module.dir)

@@ -2,6 +2,7 @@
 #define __VECTOR4_HPP
 
 #include "builtin.hpp"
+#include "Vector4.hpp"
 
 using namespace __shedskin__;
 namespace __Vector4__ {
@@ -20,7 +21,10 @@ public:
     PyObject *__to_py__();
 };
 
-void __init();
 
 } // module namespace
+namespace __shedskin__ { /* XXX */
+
+template<> __Vector4__::Vector4 *__to_ss(PyObject *p);
+}
 #endif
