@@ -1,0 +1,27 @@
+#ifndef __TEST2_HPP
+#define __TEST2_HPP
+
+#include "builtin.hpp"
+#include "test2.hpp"
+#include "Vector4.hpp"
+
+using namespace __shedskin__;
+namespace __test2__ {
+
+extern str *const_0;
+
+using __Vector4__::Vector4;
+
+
+
+extern Vector4 *v;
+extern str *__name__;
+
+Vector4 *test2(Vector4 *v);
+
+} // module namespace
+namespace __shedskin__ { /* XXX */
+
+template<> __Vector4__::Vector4 *__to_ss(PyObject *p);
+}
+#endif
