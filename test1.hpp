@@ -3,6 +3,7 @@
 
 #include "builtin.hpp"
 #include "test1.hpp"
+#include "sslib.hpp"
 #include "Vector4.hpp"
 
 using namespace __shedskin__;
