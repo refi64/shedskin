@@ -5,7 +5,7 @@ LFLAGS=-lgc -lpcre $(LDFLAGS) -shared -Xlinker -export-dynamic -lpthread -ldl  -
 
 all:	test1.so
 
-CPPFILES=test1.cpp /home/srepmub/shedskin/shedskin/lib/builtin.cpp /home/srepmub/shedskin/shedskin/lib/re.cpp
+CPPFILES=test1.cpp /home/srepmub/shedskin/shedskin/lib/re.cpp
 HPPFILES=test1.hpp /home/srepmub/shedskin/shedskin/lib/builtin.hpp Vector4.hpp /home/srepmub/shedskin/shedskin/lib/re.hpp
 
 test1.so:	$(CPPFILES) $(HPPFILES)

@@ -28,7 +28,15 @@ char __str_cache[4000];
 dict<void *, void *> *__ss_proxy;
 #endif
 
+int inited = 0;
+
 void __init() {
+    if(inited) {
+        printf("already initialized.. skip skip\n");
+        return;
+    }
+    inited = 1;
+
     GC_INIT();
 #ifdef __SS_BIND
     Py_Initialize();

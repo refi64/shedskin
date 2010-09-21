@@ -2990,7 +2990,7 @@ def generate_code():
     # --- generate Makefile
     makefile = file(os.path.join(getgx().output_dir, getgx().makefile_name), 'w')
 
-    cppfiles = ' '.join([m.filename[:-3].replace(' ', '\ ')+'.cpp' for m in mods if m.builtin or m == getgx().main_module])
+    cppfiles = ' '.join([m.filename[:-3].replace(' ', '\ ')+'.cpp' for m in mods if m == getgx().main_module])
     hppfiles = ' '.join([m.filename[:-3].replace(' ', '\ ')+'.hpp' for m in mods])
     repath = connect_paths(getgx().libdir.replace(' ', '\ '), 're.cpp')
     if not repath in cppfiles:
@@ -3031,8 +3031,10 @@ def generate_code():
                 elif sys.platform == 'darwin': line += ' -bundle -undefined dynamic_lookup ' + ldflags
                 elif sys.platform == 'sunos5': line += ' -shared -Xlinker ' + ldflags
                 else: line += ' -shared -Xlinker -export-dynamic ' + ldflags
+                line += ' -L.'
                 if getgx().main_module.ident != 'Vector4':
-                    line += ' -L. -lVector4'
+                    line += ' -lVector4'
+                line += ' -lShedskin'
 
             if 'socket' in [m.ident for m in mods]:
                 if sys.platform == 'win32':
