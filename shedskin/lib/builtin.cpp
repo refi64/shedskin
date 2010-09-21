@@ -32,7 +32,6 @@ int inited = 0;
 
 void __init() {
     if(inited) {
-        printf("already initialized.. skip skip\n");
         return;
     }
     inited = 1;

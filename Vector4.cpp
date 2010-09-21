@@ -15,7 +15,7 @@ class_ *cl_Vector4;
 void __init() {
     __name__ = new str("Vector4");
 
-    cl_Vector4 = new class_("Vector4", 31, 31);
+    cl_Vector4 = new class_("Vector4", 2, 2);
     v = (new Vector4());
 }
 
