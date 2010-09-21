@@ -3031,10 +3031,9 @@ def generate_code():
                 elif sys.platform == 'darwin': line += ' -bundle -undefined dynamic_lookup ' + ldflags
                 elif sys.platform == 'sunos5': line += ' -shared -Xlinker ' + ldflags
                 else: line += ' -shared -Xlinker -export-dynamic ' + ldflags
-                line += ' -L.'
+                line += ' -Wl,-rpath,. -L. -lShedskin'
                 if getgx().main_module.ident != 'Vector4':
                     line += ' -lVector4'
-                line += ' -lShedskin'
 
             if 'socket' in [m.ident for m in mods]:
                 if sys.platform == 'win32':
