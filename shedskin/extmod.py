@@ -20,6 +20,7 @@ def do_extmod(gv):
 
     # classes
     classes = gv.module.classes.values() 
+    classes = sorted(classes, key=lambda x: x.def_order)
     for cl in classes:
         do_extmod_class(gv, cl)
 
@@ -337,6 +338,8 @@ def convert_methods(gv, cl, declare):
 
 def convert_methods2(gv):
     print >>gv.out, 'namespace __shedskin__ { /* XXX */\n'
-    for cl in gv.module.classes.values():
+    classes = gv.module.classes.values()
+    classes = sorted(classes, key=lambda x: x.def_order)
+    for cl in classes:
         print >>gv.out, 'template<> __%s__::%s *__to_ss(PyObject *p);' % (cl.module.ident, cl.cpp_name)
     print >>gv.out, '}'
