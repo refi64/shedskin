@@ -262,19 +262,19 @@ str *complex::__repr__() {
 
 /* str methods */
 
-str::str() : hash(0) {
+str::str() : hash(-1) {
     __class__ = cl_str_;
 }
 
-str::str(const char *s) : unit(s), hash(0) {
+str::str(const char *s) : unit(s), hash(-1) {
     __class__ = cl_str_;
 }
 
-str::str(__GC_STRING s) : unit(s), hash(0) {
+str::str(__GC_STRING s) : unit(s), hash(-1) {
     __class__ = cl_str_;
 }
 
-str::str(const char *s, int size) : unit(s, size), hash(0) { /* '\0' delimiter in C */
+str::str(const char *s, int size) : unit(s, size), hash(-1) { /* '\0' delimiter in C */
     __class__ = cl_str_;
 }
 
@@ -755,66 +755,85 @@ str *str::__imul__(__ss_int n) {
     return __mul__(n);
 }
 
-/* ======================================================================== */
-
-/* (C) Paul Hsieh. http://www.azillionmonkeys.com/qed/{hash,weblicense}.html */
-
-#define get16bits(d) (*((const unsigned short int *) (d)))
-
-static inline unsigned int SuperFastHash (const char * data, int len) {
-    unsigned int hash = 0, tmp;
-    int rem;
-
-    if (len <= 0 || data == NULL) return 0;
-
-    rem = len & 3;
-    len >>= 2;
-
-    /* Main loop */
-    for (;len > 0; len--) {
-        hash  += get16bits (data);
-        tmp    = (get16bits (data+2) << 11) ^ hash;
-        hash   = (hash << 16) ^ tmp;
-        data  += 2*sizeof (unsigned short int);
-        hash  += hash >> 11;
-    }
-
-    /* Handle end cases */
-    switch (rem) {
-        case 3: hash += get16bits (data);
-                hash ^= hash << 16;
-                hash ^= data[sizeof (unsigned short int)] << 18;
-                hash += hash >> 11;
-                break;
-        case 2: hash += get16bits (data);
-                hash ^= hash << 11;
-                hash += hash >> 17;
-                break;
-        case 1: hash += *data;
-                hash ^= hash << 10;
-                hash += hash >> 1;
-    }
-
-    /* Force "avalanching" of final 127 bits */
-    hash ^= hash << 3;
-    hash += hash >> 5;
-    hash ^= hash << 4;
-    hash += hash >> 17;
-    hash ^= hash << 25;
-    hash += hash >> 6;
-
-    return hash;
-}
-
-/* ======================================================================== */
-
 int str::__hash__() {
-    if(hash)
+    if(hash != -1)
         return hash;
-    hash = SuperFastHash(unit.c_str(), unit.size());
-    return hash;
+    long x;
+    const unsigned char *data = (unsigned char *)unit.data();
+    int len = __len__();
+#ifdef __SS_FASTHASH
+//-----------------------------------------------------------------------------
+// MurmurHash2, by Austin Appleby
+// http://sites.google.com/site/murmurhash/
 
-    //return __gnu_cxx::hash<char *>()(unit.c_str());
+// All code is released to the public domain. 
+// For business purposes, Murmurhash is under the MIT license. 
+
+// Note - This code makes a few assumptions about how your machine behaves -
+
+// 1. We can read a 4-byte value from any address without crashing
+// 2. sizeof(int) == 4
+
+// And it has a few limitations -
+
+// 1. It will not work incrementally.
+// 2. It will not produce the same results on little-endian and big-endian
+//    machines.
+
+// 'm' and 'r' are mixing constants generated offline.
+// They're not really 'magic', they just happen to work well.
+    unsigned int seed = 12345678; /* XXX */
+	const unsigned int m = 0x5bd1e995;
+	const int r = 24;
+
+	// Initialize the hash to a 'random' value
+
+	x = seed ^ len;
+
+	// Mix 4 bytes at a time into the hash
+
+	while(len >= 4)
+	{
+		unsigned int k = *(unsigned int *)data;
+
+		k *= m; 
+		k ^= k >> r; 
+		k *= m; 
+		
+		x *= m; 
+		x ^= k;
+
+		data += 4;
+		len -= 4;
+	}
+	
+	// Handle the last few bytes of the input array
+
+	switch(len)
+	{
+        case 3: x ^= data[2] << 16;
+        case 2: x ^= data[1] << 8;
+        case 1: x ^= data[0];
+                x *= m;
+	};
+
+	// Do a few final mixes of the hash to ensure the last few
+	// bytes are well-incorporated.
+
+	x ^= x >> 13;
+	x *= m;
+	x ^= x >> 15;
+#else
+    /* modified from CPython */
+    x = *data << 7;
+    while (--len >= 0)
+        x = (1000003*x) ^ *data++;
+    x ^= __len__();
+    if (x == -1)
+        x = -2;
+#endif
+    hash = x;
+    return x; 
 }
 
 str *str::__add__(str *b) {

@@ -315,7 +315,7 @@ public:
 class str : public pyseq<str *> {
 public:
     __GC_STRING unit;
-    int hash;
+    long hash;
 
     str();
     str(const char *s);
@@ -1456,6 +1456,11 @@ static void __throw_stop_iteration() {
     for(__ ## n = 0; __ ## n < __ ## m; __ ## n ++) { \
         a = (__ ## t)->units[__ ## n]; \
         b = (__ ## u)->units[__ ## n];
+
+#define FOR_IN_ENUM(i, m, temp, n) \
+    __ ## temp = m; \
+    for(__ ## n = 0; (unsigned int)__ ## n < (__ ## temp)->units.size(); __ ## n ++) { \
+        i = (__ ## temp)->units[__ ## n]; \
 
 #define FOR_IN_T2(i, m, obj, n) \
     __ ## obj = m; \
