@@ -1,4 +1,7 @@
 
+# __init__ not called
+from testdata import Material
+
 # ugly imports
 from testdata.bert import *
 print os.getcwd(), len(sys.argv)
@@ -16,3 +19,11 @@ for i in range(-x, x+1):
        S[i, j] = 'hi'
 if t2 in S:
     print "we got 'em"
+
+# cast subtype in container
+class Bla:
+    pass
+class Sub(Bla):
+    pass
+blas = [Bla()]
+blas = [Sub()]
